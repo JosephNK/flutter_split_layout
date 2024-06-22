@@ -3,22 +3,17 @@ import 'package:flutter_split_layout/src/flutter_split_primary.dart';
 
 import 'flutter_split_controller.dart';
 import 'flutter_split_secondary.dart';
-import 'helper/measure_size.dart';
 
 class FlutterSplitMaterialApp extends StatefulWidget {
-  final String title;
-  final Widget primary;
-  final Widget secondary;
-  final ThemeData? theme;
+  final MaterialApp primaryApp;
+  final MaterialApp secondaryApp;
   final FlutterSplitController controller;
 
   const FlutterSplitMaterialApp({
     super.key,
-    required this.title,
-    required this.primary,
-    required this.secondary,
+    required this.primaryApp,
+    required this.secondaryApp,
     required this.controller,
-    this.theme,
   });
 
   @override
@@ -27,77 +22,90 @@ class FlutterSplitMaterialApp extends StatefulWidget {
 }
 
 class _FlutterSplitMaterialAppState extends State<FlutterSplitMaterialApp> {
-  Size _primarySize = Size.zero;
+  // Size _primarySize = Size.zero;
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.title;
-    final theme = widget.theme;
-    final primary = widget.primary;
-    final secondary = widget.secondary;
+    final primaryApp = widget.primaryApp;
+    final secondaryApp = widget.secondaryApp;
     final controller = widget.controller;
 
-    final isEmptySize = _primarySize == Size.zero;
+    // final isEmptySize = _primarySize == Size.zero;
 
     final primaryWidget = FlutterSplitPrimary(
-      theme: theme,
       controller: controller,
-      child: primary,
+      app: primaryApp,
     );
 
     final secondaryWidget = FlutterSplitSecondary(
-      theme: theme,
       controller: controller,
-      child: secondary,
+      app: secondaryApp,
     );
 
     return MaterialApp(
-      title: title,
-      theme: theme,
-      home: Stack(
+      // title: title,
+      // theme: theme,
+      home: Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: isEmptySize
-                    ? MeasureSize(
-                        onChange: (size) {
-                          if (_primarySize != Size.zero) return;
-                          _primarySize = size;
-                        },
-                        child: primaryWidget,
-                      )
-                    : Container(),
-              ),
-              Expanded(
-                flex: 2,
-                child: secondaryWidget,
-              ),
-            ],
+          Expanded(
+            flex: 1,
+            child: primaryWidget,
           ),
-          Positioned(
-            left: 0.0,
-            top: 0.0,
-            bottom: 0.0,
-            child: Visibility(
-              visible: !isEmptySize,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: _primarySize.width,
-                    child: primaryWidget,
-                  ),
-                  const VerticalDivider(
-                    width: 0.5,
-                  ),
-                ],
-              ),
-            ),
+          Expanded(
+            flex: 2,
+            child: secondaryWidget,
           ),
         ],
       ),
     );
+
+    // return MaterialApp(
+    //   title: title,
+    //   theme: theme,
+    //   home: Stack(
+    //     children: [
+    //       Row(
+    //         children: [
+    //           Expanded(
+    //             flex: 1,
+    //             child: isEmptySize
+    //                 ? MeasureSize(
+    //                     onChange: (size) {
+    //                       if (_primarySize != Size.zero) return;
+    //                       _primarySize = size;
+    //                     },
+    //                     child: primaryWidget,
+    //                   )
+    //                 : Container(),
+    //           ),
+    //           Expanded(
+    //             flex: 2,
+    //             child: secondaryWidget,
+    //           ),
+    //         ],
+    //       ),
+    //       Positioned(
+    //         left: 0.0,
+    //         top: 0.0,
+    //         bottom: 0.0,
+    //         child: Visibility(
+    //           visible: !isEmptySize,
+    //           child: Row(
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               SizedBox(
+    //                 width: _primarySize.width,
+    //                 child: primaryWidget,
+    //               ),
+    //               const VerticalDivider(
+    //                 width: 0.5,
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

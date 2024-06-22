@@ -61,11 +61,17 @@ class _MyAppState extends State<MyApp> {
         );
       case DeviceType.tablet:
         return FlutterSplitMaterialApp(
-          title: title,
-          theme: themeData,
           controller: splitController,
-          primary: const MyPrimaryPage(),
-          secondary: const MySecondaryPage(),
+          primaryApp: MaterialApp(
+            title: title,
+            theme: themeData,
+            home: const MyPrimaryPage(),
+          ),
+          secondaryApp: MaterialApp(
+            title: title,
+            theme: themeData,
+            home: const MySecondaryPage(),
+          ),
         );
     }
   }
