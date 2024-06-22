@@ -24,19 +24,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final FlutterSplitController splitController = FlutterSplitController();
+  late FlutterSplitController splitController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    splitController = FlutterSplitController();
+
+    switch (getDeviceType()) {
+      case DeviceType.phone:
+        splitController.primaryNavigatorKey = null;
+        splitController.secondaryNavigatorKey = null;
+        break;
+      case DeviceType.tablet:
+        splitController.primaryNavigatorKey = GlobalKey<NavigatorState>();
+        splitController.secondaryNavigatorKey = GlobalKey<NavigatorState>();
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final deviceType = getDeviceType();
-
     const title = 'Flutter Demo';
     final themeData = ThemeData(
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     );
 
-    switch (deviceType) {
+    switch (getDeviceType()) {
       case DeviceType.phone:
         return MaterialApp(
           title: title,

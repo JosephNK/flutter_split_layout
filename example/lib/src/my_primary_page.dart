@@ -47,7 +47,7 @@ class _MyPrimaryPageState extends State<MyPrimaryPage> {
                     onTap: () {
                       final controller = FlutterSplitController();
                       Navigator.push(
-                        controller.contextSecondary,
+                        controller.secondaryContext ?? context,
                         MaterialPageRoute(
                           builder: (context) => const MySecondaryDetailPage(),
                         ),

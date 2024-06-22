@@ -1,39 +1,79 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# flutter_split_layout
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+This plugin is `Flutter Split Layout` plugin.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+This plugin was created in Flutter, referring to the iOS Split Style.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Note: that it is not the same as iOS Split Style!
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+`FlutterSplitController` is a Singleton object.
+
+Please refer to the `example` folder for more details.
+
+### How to initialize
 
 ```dart
-const like = 'sample';
+main.dart
+
+late FlutterSplitController splitController;
+
+@override
+void initState() {
+  super.initState();
+
+  splitController = FlutterSplitController();
+  
+  switch (getDeviceType()) {
+    case DeviceType.phone:
+      splitController.primaryNavigatorKey = null;
+      splitController.secondaryNavigatorKey = null;
+      break;
+    case DeviceType.tablet:
+      splitController.primaryNavigatorKey = GlobalKey<NavigatorState>();
+      splitController.secondaryNavigatorKey = GlobalKey<NavigatorState>();
+      break;
+  }
+}
+
+@override
+Widget build(BuildContext context) {
+  switch (getDeviceType()) {
+    case DeviceType.phone:
+      ...
+    case DeviceType.tablet:
+      return FlutterSplitMaterialApp(
+          title: title,
+          theme: themeData,
+          controller: splitController,
+          primary: const MyPrimaryPage(),
+          secondary: const MySecondaryPage(),
+      ); 
+}
 ```
 
-## Additional information
+### How to navigate to a new screen only on secondary.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+If `secondaryContext` is Null, Navigator push is performed using the context of the relevant screen. 
+This is for use with both `phone` and `tablet`.
+
+In the example, the `my_primary_page.dart` file is used simultaneously on phone and tablet. 
+The code below is for Navigator push with one code.
+
+
+```dart
+my_primary_page.dart
+
+final controller = FlutterSplitController();
+Navigator.push(
+    controller.secondaryContext ?? context,
+    MaterialPageRoute(
+      builder: (context) => const MySecondaryDetailPage(),
+    ),
+);
+```
+
+## Contributors
+
+Thank you for your interest in the source and for your help :)

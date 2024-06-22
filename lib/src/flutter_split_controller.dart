@@ -6,47 +6,47 @@ class FlutterSplitController {
   factory FlutterSplitController() => instance;
   FlutterSplitController._internal();
 
-  final GlobalKey<NavigatorState> _defaultPrimaryNavigatorKey =
-      GlobalKey<NavigatorState>();
   GlobalKey<NavigatorState>? _primaryNavigatorKey;
-  GlobalKey<NavigatorState> get primaryNavigatorKey =>
-      _primaryNavigatorKey ?? _defaultPrimaryNavigatorKey;
+  GlobalKey<NavigatorState>? get primaryNavigatorKey => _primaryNavigatorKey;
   set primaryNavigatorKey(GlobalKey<NavigatorState>? key) {
     primaryNavigatorKey = key;
   }
 
-  final GlobalKey<NavigatorState> _defaultSecondaryNavigatorKey =
-      GlobalKey<NavigatorState>();
   GlobalKey<NavigatorState>? _secondaryNavigatorKey;
-  GlobalKey<NavigatorState> get secondaryNavigatorKey =>
-      _secondaryNavigatorKey ?? _defaultSecondaryNavigatorKey;
+  GlobalKey<NavigatorState>? get secondaryNavigatorKey =>
+      _secondaryNavigatorKey;
   set secondaryNavigatorKey(GlobalKey<NavigatorState>? key) {
     secondaryNavigatorKey = key;
   }
 
-  BuildContext get contextPrimary => primaryNavigatorKey.currentContext!;
-  BuildContext get contextSecondary => secondaryNavigatorKey.currentContext!;
+  BuildContext? get primaryContext {
+    return primaryNavigatorKey?.currentContext;
+  }
+
+  BuildContext? get secondaryContext {
+    return secondaryNavigatorKey?.currentContext;
+  }
 
   int get primaryHash => primaryNavigatorKey.hashCode;
   int get secondaryHash => secondaryNavigatorKey.hashCode;
 
-  void pushPrimary(Widget page) {
-    primaryNavigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
-  void popPrimary() {
-    primaryNavigatorKey.currentState!.pop();
-  }
-
-  void pushSecondary(Widget page) {
-    secondaryNavigatorKey.currentState!.push(
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
-  void popSecondary() {
-    secondaryNavigatorKey.currentState!.pop();
-  }
+  // void pushPrimary(Widget page) {
+  //   primaryNavigatorKey?.currentState!.push(
+  //     MaterialPageRoute(builder: (context) => page),
+  //   );
+  // }
+  //
+  // void popPrimary() {
+  //   primaryNavigatorKey?.currentState!.pop();
+  // }
+  //
+  // void pushSecondary(Widget page) {
+  //   secondaryNavigatorKey?.currentState!.push(
+  //     MaterialPageRoute(builder: (context) => page),
+  //   );
+  // }
+  //
+  // void popSecondary() {
+  //   secondaryNavigatorKey?.currentState!.pop();
+  // }
 }
