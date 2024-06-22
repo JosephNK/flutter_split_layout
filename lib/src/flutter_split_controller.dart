@@ -6,18 +6,8 @@ class FlutterSplitController {
   factory FlutterSplitController() => instance;
   FlutterSplitController._internal();
 
-  GlobalKey<NavigatorState>? _primaryNavigatorKey;
-  GlobalKey<NavigatorState>? get primaryNavigatorKey => _primaryNavigatorKey;
-  set primaryNavigatorKey(GlobalKey<NavigatorState>? key) {
-    primaryNavigatorKey = key;
-  }
-
-  GlobalKey<NavigatorState>? _secondaryNavigatorKey;
-  GlobalKey<NavigatorState>? get secondaryNavigatorKey =>
-      _secondaryNavigatorKey;
-  set secondaryNavigatorKey(GlobalKey<NavigatorState>? key) {
-    secondaryNavigatorKey = key;
-  }
+  GlobalKey<NavigatorState>? primaryNavigatorKey;
+  GlobalKey<NavigatorState>? secondaryNavigatorKey;
 
   BuildContext? get primaryContext {
     return primaryNavigatorKey?.currentContext;
